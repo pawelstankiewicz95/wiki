@@ -21,4 +21,9 @@ public class ProgramServiceImpl implements ProgramService{
     public List<Program> getAllPrograms() {
         return programRepository.findAll();
     }
+
+    @Override
+    public Program saveProgram(Program program) {
+        return programRepository.save(program);
+    }
 }
