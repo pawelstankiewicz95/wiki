@@ -18,12 +18,27 @@ public class ProgramServiceImpl implements ProgramService{
     }
 
     @Override
+    public Program saveProgram(Program program) {
+        return programRepository.save(program);
+    }
+
+    @Override
+    public Program getProgramById(Long id) {
+        return programRepository.findById(id).orElseThrow();
+    }
+
+    @Override
     public List<Program> getAllPrograms() {
         return programRepository.findAll();
     }
 
     @Override
-    public Program saveProgram(Program program) {
+    public Program updateProgram(Program program) {
         return programRepository.save(program);
+    }
+
+    @Override
+    public void deleteProgramById(Long id) {
+        programRepository.deleteById(id);
     }
 }
