@@ -1,10 +1,12 @@
 package com.pawelapps.wiki.user;
 
+import com.pawelapps.wiki.role.Role;
 import com.pawelapps.wiki.solution.Solution;
 import com.pawelapps.wiki.subject.Subject;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @AllArgsConstructor
@@ -31,4 +33,13 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Solution> solutions;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 }
