@@ -16,10 +16,11 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "name")
     private String name;
+
     @ManyToOne
     @JoinColumn(name = "program_id")
     private Program program;
-
 }

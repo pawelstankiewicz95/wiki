@@ -3,9 +3,16 @@ package com.pawelapps.wiki.user;
 import com.pawelapps.wiki.solution.Solution;
 import com.pawelapps.wiki.subject.Subject;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@Builder
+@Entity
 @Table(name = "user")
 public class User {
     @Id

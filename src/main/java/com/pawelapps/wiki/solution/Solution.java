@@ -3,10 +3,18 @@ package com.pawelapps.wiki.solution;
 import com.pawelapps.wiki.subject.Subject;
 import com.pawelapps.wiki.user.User;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@Builder
+@Entity
+@Table(name = "solution")
 public class Solution {
 
     @Id
