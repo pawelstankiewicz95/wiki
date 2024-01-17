@@ -29,8 +29,6 @@ public class Solution {
     @ManyToOne
     @JoinColumn(name = "subject_id")
     private Subject subject;
-    //@Column(name = "tittle")
-    //private String title;
 
     @Column(name = "description")
     private String description;
