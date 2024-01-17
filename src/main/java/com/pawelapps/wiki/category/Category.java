@@ -1,5 +1,8 @@
 package com.pawelapps.wiki.category;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pawelapps.wiki.program.Program;
 import com.pawelapps.wiki.subject.Subject;
 import jakarta.persistence.*;
@@ -14,6 +17,9 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "category")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

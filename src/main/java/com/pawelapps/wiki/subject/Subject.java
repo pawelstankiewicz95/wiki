@@ -1,5 +1,8 @@
 package com.pawelapps.wiki.subject;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pawelapps.wiki.category.Category;
 import com.pawelapps.wiki.solution.Solution;
 import com.pawelapps.wiki.user.User;
@@ -16,6 +19,9 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "subject")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -26,8 +32,8 @@ public class Subject {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "tittle")
-    private String tittle;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "time_created")
     private LocalDateTime timeCreated;

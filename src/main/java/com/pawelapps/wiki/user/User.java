@@ -1,5 +1,6 @@
 package com.pawelapps.wiki.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pawelapps.wiki.role.Role;
 import com.pawelapps.wiki.solution.Solution;
 import com.pawelapps.wiki.subject.Subject;
@@ -29,11 +30,14 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
     private List<Subject> subjects;
 
+    @JsonIgnoreProperties("user")
     @OneToMany(mappedBy = "user")
     private List<Solution> solutions;
 
+    @JsonIgnoreProperties("user")
     @OneToMany(mappedBy = "user")
     private Collection<Role> roles;
 }
