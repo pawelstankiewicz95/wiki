@@ -1,5 +1,6 @@
 package com.pawelapps.wiki.subject;
 
+import com.pawelapps.wiki.category.Category;
 import com.pawelapps.wiki.solution.Solution;
 import com.pawelapps.wiki.user.User;
 import jakarta.persistence.*;
@@ -36,4 +37,8 @@ public class Subject {
 
     @OneToMany(mappedBy = "subject")
     private List<Solution> solutions;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
