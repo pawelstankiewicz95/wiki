@@ -20,7 +20,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/categories-by-program-id/{programId}")
+    @GetMapping("categories/categories-by-program-id/{programId}")
     public ResponseEntity<List<Category>> getCategoriesByProgramId(@PathVariable("programId") Long programId){
         List<Category> categories = categoryService.findByProgramId(programId);
         return new ResponseEntity<>(categories, HttpStatus.OK);
