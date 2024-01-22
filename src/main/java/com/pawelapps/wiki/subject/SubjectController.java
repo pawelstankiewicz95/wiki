@@ -22,7 +22,7 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
-    @GetMapping("subjects/subjects-by-program-id/{subjectId}")
+    @GetMapping("subjects/subjects-by-category-id/{subjectId}")
     public ResponseEntity<List<Subject>> getSubjectsByCategoryId(@PathVariable("subjectId") Long categoryId){
         List<Subject> subjects = subjectService.findByCategoryId(categoryId);
         return new ResponseEntity<>(subjects, HttpStatus.OK);
