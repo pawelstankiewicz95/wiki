@@ -1,6 +1,7 @@
 package com.pawelapps.wiki.subject;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pawelapps.wiki.category.Category;
@@ -42,9 +43,11 @@ public class Subject {
     private LocalDateTime timeUpdated;
 
     @OneToMany(mappedBy = "subject")
+    @JsonIgnore
     private List<Solution> solutions;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private Category category;
 }
