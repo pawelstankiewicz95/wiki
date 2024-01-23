@@ -1,7 +1,7 @@
 package com.pawelapps.wiki.category;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pawelapps.wiki.program.Program;
 import com.pawelapps.wiki.subject.Subject;
@@ -34,5 +34,6 @@ public class Category {
     private Program program;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<Subject> subjects;
 }
