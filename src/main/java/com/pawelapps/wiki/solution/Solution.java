@@ -1,6 +1,8 @@
 package com.pawelapps.wiki.solution;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pawelapps.wiki.subject.Subject;
 import com.pawelapps.wiki.user.User;
@@ -33,6 +35,8 @@ public class Solution {
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
+    @JsonIgnoreProperties({"user"})
+    @JsonProperty("solutionSubject")
     private Subject subject;
 
     @Column(name = "description")
