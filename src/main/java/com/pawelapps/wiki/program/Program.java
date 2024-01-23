@@ -1,6 +1,7 @@
 package com.pawelapps.wiki.program;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pawelapps.wiki.category.Category;
@@ -19,7 +20,6 @@ import java.util.List;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
-@JsonIgnoreProperties("categories")
 public class Program {
     @Column(name = "id")
     @Id
@@ -30,5 +30,6 @@ public class Program {
     private String name;
 
     @OneToMany(mappedBy = "program")
+    @JsonIgnore
     private List<Category> categories;
 }
