@@ -19,4 +19,9 @@ public class SubjectServiceImpl implements SubjectService{
     public List<Subject> findByCategoryId(Long id){
         return subjectRepository.findByCategoryId(id);
     };
+
+    @Override
+    public List<Subject> findByTitle(String title){
+        return subjectRepository.findByTitle(title);
+    }
 }
