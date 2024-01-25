@@ -23,9 +23,15 @@ public class SolutionController {
         return new ResponseEntity<>(solutions, HttpStatus.OK);
     }
 
-    @PostMapping("/solutions/")
+    @PostMapping("/solutions")
     public ResponseEntity<Solution> saveSolution(@RequestBody Solution solution) {
         Solution newSolution = this.solutionService.saveSolution(solution);
         return new ResponseEntity<>(newSolution, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/solutions")
+    public ResponseEntity<Solution> updateSolution(@RequestBody Solution solution) {
+        Solution updatedSolution = this.solutionService.updateSolution(solution);
+        return new ResponseEntity<>(updatedSolution, HttpStatus.OK);
     }
 }
