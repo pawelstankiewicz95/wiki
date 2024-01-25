@@ -48,6 +48,6 @@ public class Subject {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonIgnore
+    @JsonIgnoreProperties("name")
     private Category category;
 }
