@@ -3,10 +3,7 @@ package com.pawelapps.wiki.solution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,9 +17,15 @@ public class SolutionController {
         this.solutionService = solutionService;
     }
 
-    @GetMapping("solutions/solutions-by-subject-id/{subjectId}")
-    public ResponseEntity<List<Solution>> getSolutionBySubjectId(@PathVariable("subjectId") Long id){
+    @GetMapping("/solutions/solutions-by-subject-id/{subjectId}")
+    public ResponseEntity<List<Solution>> getSolutionBySubjectId(@PathVariable("subjectId") Long id) {
         List<Solution> solutions = solutionService.findBySubjectId(id);
         return new ResponseEntity<>(solutions, HttpStatus.OK);
+    }
+
+    @PostMapping("/solutions/")
+    public ResponseEntity<Solution> saveSolution(@RequestBody Solution solution) {
+        Solution newSolution = this.solutionService.saveSolution(solution);
+        return new ResponseEntity<>(newSolution, HttpStatus.CREATED);
     }
 }
