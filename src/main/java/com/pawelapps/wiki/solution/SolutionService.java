@@ -7,4 +7,6 @@ public interface SolutionService {
     List<Solution> findBySubjectId(Long id);
 
     Solution saveSolution(Solution solution);
+
+    Solution updateSolution(Solution solution);
 }

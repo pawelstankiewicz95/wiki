@@ -24,4 +24,9 @@ public class SolutionServiceImpl implements SolutionService {
     public Solution saveSolution(Solution solution) {
         return this.solutionRepository.save(solution);
     }
+
+    @Override
+    public Solution updateSolution(Solution solution) {
+        return this.solutionRepository.save(solution);
+    }
 }
