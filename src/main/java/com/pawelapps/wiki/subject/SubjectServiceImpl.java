@@ -24,4 +24,10 @@ public class SubjectServiceImpl implements SubjectService{
     public List<Subject> findByTitle(String title){
         return subjectRepository.findByTitle(title);
     }
+
+    @Override
+    public Subject findById(Long id) {
+        return subjectRepository.findById(id).orElseThrow();
+    }
+
 }
