@@ -9,4 +9,6 @@ public interface SolutionService {
     Solution saveSolution(Long subjectId, Solution solution);
 
     Solution updateSolution(Solution solution);
+
+    void deleteSolution(Long id);
 }

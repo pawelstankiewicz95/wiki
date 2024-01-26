@@ -35,4 +35,10 @@ public class SolutionServiceImpl implements SolutionService {
     public Solution updateSolution(Solution solution) {
         return this.solutionRepository.save(solution);
     }
+
+    @Override
+
+    public void deleteSolution(Long id){
+        //to do
+    }
 }
