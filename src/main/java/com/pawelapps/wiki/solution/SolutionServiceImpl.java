@@ -20,6 +20,11 @@ public class SolutionServiceImpl implements SolutionService {
     }
 
     @Override
+    public Solution findById(Long id) {
+        return solutionRepository.findById(id).orElseThrow();
+    }
+
+    @Override
     public List<Solution> findBySubjectId(Long id) {
         return solutionRepository.findBySubjectId(id);
     }
@@ -41,4 +46,6 @@ public class SolutionServiceImpl implements SolutionService {
     public void deleteSolution(Long id){
         //to do
     }
+
+
 }
