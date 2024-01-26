@@ -24,8 +24,8 @@ public class SolutionController {
     }
 
     @PostMapping("/solutions")
-    public ResponseEntity<Solution> saveSolution(@RequestBody Solution solution) {
-        Solution newSolution = this.solutionService.saveSolution(solution);
+    public ResponseEntity<Solution> saveSolution(@RequestBody Solution solution, @RequestParam("subjectId") Long subjectId) {
+        Solution newSolution = this.solutionService.saveSolution(subjectId, solution);
         return new ResponseEntity<>(newSolution, HttpStatus.CREATED);
     }
 
