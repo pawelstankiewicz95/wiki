@@ -19,6 +19,7 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests((request) -> request
                         .anyRequest().permitAll()
                 );
+        httpSecurity.csrf(csrf -> csrf.disable());
         httpSecurity.setSharedObject(ContentNegotiationStrategy.class, new HeaderContentNegotiationStrategy());
         return httpSecurity.build();
     }
