@@ -4,6 +4,7 @@ import com.pawelapps.wiki.subject.Subject;
 import com.pawelapps.wiki.subject.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.FileOutputStream;
@@ -15,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+@Transactional
 public class SolutionServiceImpl implements SolutionService {
 
     private final SolutionRepository solutionRepository;
