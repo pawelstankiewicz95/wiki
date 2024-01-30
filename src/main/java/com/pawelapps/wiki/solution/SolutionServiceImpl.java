@@ -9,6 +9,7 @@ import org.springframework.util.FileCopyUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
@@ -42,26 +43,6 @@ public class SolutionServiceImpl implements SolutionService {
     }
 
     @Override
-    public Solution saveSolution(Long subjectId, Solution solution) {
-        String base64Image = extractBase64Image(solution.getDescription());
-        if (base64Image != null) {
-            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-
-            String fileName = UUID.randomUUID().toString() + ".png";
-
-            saveImageOnDisk(imageBytes, fileName);
-
-            String imageUrl = ANGULAR_RELATIVE_PATH + fileName;
-            String descriptionWithImageUrl = replaceBase64WithUrl(solution.getDescription(), imageUrl);
-
-            solution.setDescription(descriptionWithImageUrl);
-        }
-        Subject subject = subjectService.findById(subjectId);
-        solution.setSubject(subject);
-        return solutionRepository.save(solution);
-    }
-
-    @Override
     public Solution updateSolution(Solution solution) {
         return solutionRepository.save(solution);
     }
@@ -71,13 +52,39 @@ public class SolutionServiceImpl implements SolutionService {
         solutionRepository.deleteById(id);
     }
 
-    private String extractBase64Image(String htmlWithBase64) {
+
+    @Override
+    public Solution saveSolution(Long subjectId, Solution solution) {
+        List<String> base64Images = extractBase64Images(solution.getDescription());
+
+        if (!base64Images.isEmpty()) {
+            List<String> imageUrls = new ArrayList<>();
+
+            for (String base64Image : base64Images) {
+                byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+                String fileName = UUID.randomUUID().toString() + ".png";
+                saveImageOnDisk(imageBytes, fileName);
+                String imageUrl = ANGULAR_RELATIVE_PATH + fileName;
+                imageUrls.add(imageUrl);
+            }
+
+            String descriptionWithImageUrls = replaceBase64WithUrls(solution.getDescription(), imageUrls);
+            solution.setDescription(descriptionWithImageUrls);
+        }
+
+        Subject subject = subjectService.findById(subjectId);
+        solution.setSubject(subject);
+        return solutionRepository.save(solution);
+    }
+
+    private List<String> extractBase64Images(String htmlWithBase64) {
+        List<String> base64Images = new ArrayList<>();
         Pattern pattern = Pattern.compile("data:image/png;base64,([^\"']+)");
         Matcher matcher = pattern.matcher(htmlWithBase64);
-        if (matcher.find()) {
-            return matcher.group(1);
+        while (matcher.find()) {
+            base64Images.add(matcher.group(1));
         }
-        return null;
+        return base64Images;
     }
 
     private void saveImageOnDisk(byte[] imageBytes, String fileName) {
@@ -88,7 +95,10 @@ public class SolutionServiceImpl implements SolutionService {
         }
     }
 
-    private String replaceBase64WithUrl(String htmlWithBase64, String imageUrl) {
-        return htmlWithBase64.replaceAll("data:image/png;base64,[^\"']+", imageUrl);
+    private String replaceBase64WithUrls(String htmlWithBase64, List<String> imageUrls) {
+        for (int i = 0; i < imageUrls.size(); i++) {
+            htmlWithBase64 = htmlWithBase64.replaceFirst("data:image/png;base64,[^\"']+", imageUrls.get(i));
+        }
+        return htmlWithBase64;
     }
 }
