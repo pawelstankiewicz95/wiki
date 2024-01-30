@@ -61,8 +61,10 @@ public class SolutionServiceImpl implements SolutionService {
             List<String> imageUrls = new ArrayList<>();
 
             for (String base64Image : base64Images) {
-                byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-                String fileName = UUID.randomUUID().toString() + ".png";
+                String[] parts = base64Image.split(",");
+                String imageType = parts[0].split("/")[1].split(";")[0];
+                byte[] imageBytes = Base64.getDecoder().decode(parts[1]);
+                String fileName = UUID.randomUUID().toString() + "." + imageType;
                 saveImageOnDisk(imageBytes, fileName);
                 String imageUrl = ANGULAR_RELATIVE_PATH + fileName;
                 imageUrls.add(imageUrl);
@@ -79,10 +81,10 @@ public class SolutionServiceImpl implements SolutionService {
 
     private List<String> extractBase64Images(String htmlWithBase64) {
         List<String> base64Images = new ArrayList<>();
-        Pattern pattern = Pattern.compile("data:image/png;base64,([^\"']+)");
+        Pattern pattern = Pattern.compile("data:image/(.*?);base64,([^\"']+)");
         Matcher matcher = pattern.matcher(htmlWithBase64);
         while (matcher.find()) {
-            base64Images.add(matcher.group(1));
+            base64Images.add(matcher.group(0));
         }
         return base64Images;
     }
@@ -97,7 +99,7 @@ public class SolutionServiceImpl implements SolutionService {
 
     private String replaceBase64WithUrls(String htmlWithBase64, List<String> imageUrls) {
         for (int i = 0; i < imageUrls.size(); i++) {
-            htmlWithBase64 = htmlWithBase64.replaceFirst("data:image/png;base64,[^\"']+", imageUrls.get(i));
+            htmlWithBase64 = htmlWithBase64.replaceFirst("data:image/(.*?);base64,[^\"']+", imageUrls.get(i));
         }
         return htmlWithBase64;
     }
