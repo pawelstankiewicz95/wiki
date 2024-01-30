@@ -20,7 +20,8 @@ public class SolutionServiceImpl implements SolutionService {
     private final SolutionRepository solutionRepository;
     private final SubjectService subjectService;
 
-    private static final String IMAGE_DIRECTORY = "c:/images/";
+    private static final String IMAGE_DIRECTORY = "C:/Users/pawel/IdeaProjects/wiki-frontend/wiki-frontend/src/assets/images/";
+    private static final String ANGULAR_RELATIVE_PATH = "/assets/images/";
 
     @Autowired
     public SolutionServiceImpl(SolutionRepository solutionRepository, SubjectService subjectService) {
@@ -39,21 +40,20 @@ public class SolutionServiceImpl implements SolutionService {
     }
 
     @Override
-    public Solution saveSolution(Long subjectId, Solution solutionWithBase64Image) {
-        String base64Image = extractBase64Image(solutionWithBase64Image.getDescription());
+    public Solution saveSolution(Long subjectId, Solution solution) {
+        String base64Image = extractBase64Image(solution.getDescription());
+        if (base64Image != null) {
+            byte[] imageBytes = Base64.getDecoder().decode(base64Image);
 
-        byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+            String fileName = UUID.randomUUID().toString() + ".png";
 
-        String fileName = UUID.randomUUID().toString() + ".png";
+            saveImageOnDisk(imageBytes, fileName);
 
-        saveImageOnDisk(imageBytes, fileName);
+            String imageUrl = ANGULAR_RELATIVE_PATH + fileName;
+            String descriptionWithImageUrl = replaceBase64WithUrl(solution.getDescription(), imageUrl);
 
-        String imageUrl = IMAGE_DIRECTORY + fileName;
-        String descriptionWithImageUrl = replaceBase64WithUrl(solutionWithBase64Image.getDescription(), imageUrl);
-
-        Solution solution = new Solution();
-        solution.setDescription(descriptionWithImageUrl);
-
+            solution.setDescription(descriptionWithImageUrl);
+        }
         Subject subject = subjectService.findById(subjectId);
         solution.setSubject(subject);
         return solutionRepository.save(solution);
