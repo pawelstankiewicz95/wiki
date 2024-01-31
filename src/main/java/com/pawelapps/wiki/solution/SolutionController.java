@@ -17,8 +17,8 @@ public class SolutionController {
         this.solutionService = solutionService;
     }
 
-    @GetMapping
-    public ResponseEntity<Solution> getSolutionById(@PathVariable ("id") Long id) {
+    @GetMapping("/solutions/{solutionId}")
+    public ResponseEntity<Solution> getSolutionById(@PathVariable ("solutionId") Long id) {
         Solution solution = solutionService.findById(id);
         return new ResponseEntity<>(solution, HttpStatus.OK);
     }
