@@ -19,6 +19,7 @@ import java.util.List;
 @Entity
 @Table(name = "category")
 @JsonIdentityInfo(
+        scope = Category.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 public class Category {

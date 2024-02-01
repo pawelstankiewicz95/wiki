@@ -20,6 +20,7 @@ import java.util.List;
 @Entity
 @Table(name = "solution")
 @JsonIdentityInfo(
+        scope = Solution.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 public class Solution {

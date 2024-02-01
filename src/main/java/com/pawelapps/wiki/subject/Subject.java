@@ -21,6 +21,7 @@ import java.util.List;
 @Entity
 @Table(name = "subject")
 @JsonIdentityInfo(
+        scope = Subject.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 public class Subject {
