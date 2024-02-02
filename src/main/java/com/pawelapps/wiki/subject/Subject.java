@@ -21,11 +21,12 @@ import java.util.List;
 @Entity
 @Table(name = "subject")
 @JsonIdentityInfo(
+        scope = Subject.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 public class Subject {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -48,6 +49,6 @@ public class Subject {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonIgnore
+    @JsonIgnoreProperties("name")
     private Category category;
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pawelapps.wiki.category.Category;
+import com.pawelapps.wiki.solution.Solution;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,12 +19,13 @@ import java.util.List;
 @Entity
 @Table(name = "program")
 @JsonIdentityInfo(
+        scope = Program.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 public class Program {
     @Column(name = "id")
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")

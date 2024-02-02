@@ -20,12 +20,13 @@ import java.util.List;
 @Entity
 @Table(name = "solution")
 @JsonIdentityInfo(
+        scope = Solution.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 public class Solution {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
