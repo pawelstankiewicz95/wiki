@@ -1,4 +1,4 @@
-package com.pawelapps.wiki.configuration.security;
+package com.pawelapps.wiki.configuration;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

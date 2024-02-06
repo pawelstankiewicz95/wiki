@@ -1,4 +1,4 @@
-package com.pawelapps.wiki.configuration.security;
+package com.pawelapps.wiki.configuration;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -18,14 +18,6 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-
-    private final String SECRET_KEY;
-
-    public JwtService(@Value("${SECRET_KEY}") String secretKey) {
-        SECRET_KEY = secretKey;
-    }
-
-
     public String extractUsername(String jwt) {
         return extractClaim(jwt, Claims::getSubject);
     }
@@ -39,10 +31,7 @@ public class JwtService {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails
-    ) {
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -77,8 +66,7 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-        return Keys.hmacShaKeyFor(keyBytes);
+        return Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
 }

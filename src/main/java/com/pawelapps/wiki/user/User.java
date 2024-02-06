@@ -2,7 +2,6 @@ package com.pawelapps.wiki.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pawelapps.wiki.role.Role;
 import com.pawelapps.wiki.solution.Solution;
 import com.pawelapps.wiki.subject.Subject;
 import jakarta.persistence.*;
