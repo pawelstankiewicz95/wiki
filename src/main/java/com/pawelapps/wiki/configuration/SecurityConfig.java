@@ -29,7 +29,8 @@ public class SecurityConfig {
 
         httpSecurity.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers(HttpMethod.GET).anonymous()
+                        req.requestMatchers("/api/auth/**").anonymous()
+                                .requestMatchers(HttpMethod.GET).anonymous()
                                 .anyRequest()
                                 .authenticated()
                 )
