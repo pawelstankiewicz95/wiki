@@ -31,6 +31,7 @@ public class Subject {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore // to do
     private User user;
 
     @Column(name = "title")
