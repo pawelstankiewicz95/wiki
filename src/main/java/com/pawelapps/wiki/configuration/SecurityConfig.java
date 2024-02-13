@@ -36,7 +36,6 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(req ->
                         req.requestMatchers("/api/auth/**").anonymous()
-                                .requestMatchers(HttpMethod.GET).anonymous()
                                 .anyRequest()
                                 .authenticated()
                 )
