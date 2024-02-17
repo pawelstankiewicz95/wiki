@@ -46,7 +46,6 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Subject> subjects;
 
-    // Assuming you want a bidirectional relationship with Solutions
     @OneToMany(mappedBy = "user")
     private List<Solution> createdSolutions;
 
