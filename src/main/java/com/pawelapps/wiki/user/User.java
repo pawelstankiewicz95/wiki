@@ -46,9 +46,12 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Subject> subjects;
 
+    // Assuming you want a bidirectional relationship with Solutions
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Solution> solutions;
+    private List<Solution> createdSolutions;
+
+    @OneToMany(mappedBy = "modifier")
+    private List<Solution> modifiedSolutions;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")

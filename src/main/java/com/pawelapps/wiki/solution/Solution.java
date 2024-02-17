@@ -30,8 +30,12 @@ public class Solution {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", updatable = false)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name ="modifed_by_user_id", insertable = false)
+    private User modifier;
 
     @ManyToOne
     @JoinColumn(name = "subject_id")
@@ -42,10 +46,10 @@ public class Solution {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "time_created")
+    @Column(name = "time_created", updatable = false)
     private LocalDateTime timeCreated;
 
-    @Column(name = "time_updated")
+    @Column(name = "time_updated", insertable = false)
     private LocalDateTime timeUpdated;
 
 }
