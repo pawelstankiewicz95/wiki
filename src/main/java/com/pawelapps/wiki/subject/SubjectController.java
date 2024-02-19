@@ -20,14 +20,14 @@ public class SubjectController {
     }
 
     @GetMapping("subjects/subjects-by-category-id/{subjectId}")
-    public ResponseEntity<List<Subject>> getSubjectsByCategoryId(@PathVariable("subjectId") Long categoryId){
-        List<Subject> subjects = subjectService.findByCategoryId(categoryId);
+    public ResponseEntity<List<SubjectResponse>> getSubjectsByCategoryId(@PathVariable("subjectId") Long categoryId){
+        List<SubjectResponse> subjects = subjectService.findByCategoryId(categoryId);
         return new ResponseEntity<>(subjects, HttpStatus.OK);
     }
 
     @GetMapping("subjects/search-by-title")
-    public ResponseEntity<List<Subject>> getSubjectsByTitle(@RequestParam("title") String title){
-        List<Subject> subjects = subjectService.findByTitle(title);
+    public ResponseEntity<List<SubjectResponse>> getSubjectsByTitle(@RequestParam("title") String title){
+        List<SubjectResponse> subjects = subjectService.findByTitle(title);
         return new ResponseEntity<>(subjects, HttpStatus.OK);
     }
 }

@@ -47,8 +47,10 @@ public class User implements UserDetails {
     private List<Subject> subjects;
 
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Solution> solutions;
+    private List<Solution> createdSolutions;
+
+    @OneToMany(mappedBy = "modifier")
+    private List<Solution> modifiedSolutions;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
