@@ -66,6 +66,24 @@ public class SolutionServiceImpl implements SolutionService {
     }
 
     @Override
+    public Solution saveSolution(Long subjectId, String username, Solution solution) {
+        List<String> base64Images = extractBase64Images(solution.getDescription());
+
+        if (!base64Images.isEmpty()) {
+            List<String> imageUrls = processBase64Images(base64Images);
+            String descriptionWithImageUrls = replaceBase64WithUrls(solution.getDescription(), imageUrls);
+            solution.setDescription(descriptionWithImageUrls);
+        }
+
+        Subject subject = subjectService.findById(subjectId);
+        User user = userService.findByUsername(username);
+        solution.setSubject(subject);
+        solution.setUser(user);
+
+        return solutionRepository.save(solution);
+    }
+
+    @Override
     public SolutionResponse mapToSolutionResponse(Solution solution) {
         SolutionResponse solutionResponse = SolutionResponse.builder()
                 .id(solution.getId())
@@ -78,33 +96,24 @@ public class SolutionServiceImpl implements SolutionService {
         return solutionResponse;
     }
 
+    private List<String> processBase64Images(List<String> base64Images) {
+        List<String> imageUrls = new ArrayList<>();
 
-    @Override
-    public Solution saveSolution(Long subjectId, String username, Solution solution) {
-        List<String> base64Images = extractBase64Images(solution.getDescription());
-
-        if (!base64Images.isEmpty()) {
-            List<String> imageUrls = new ArrayList<>();
-
-            for (String base64Image : base64Images) {
-                String[] parts = base64Image.split(",");
-                String imageType = parts[0].split("/")[1].split(";")[0];
-                byte[] imageBytes = Base64.getDecoder().decode(parts[1]);
-                String fileName = UUID.randomUUID().toString() + "." + imageType;
-                saveImageOnDisk(imageBytes, fileName);
-                String imageUrl = ANGULAR_RELATIVE_PATH + fileName;
-                imageUrls.add(imageUrl);
-            }
-
-            String descriptionWithImageUrls = replaceBase64WithUrls(solution.getDescription(), imageUrls);
-            solution.setDescription(descriptionWithImageUrls);
+        for (String base64Image : base64Images) {
+            String imageUrl = saveImageAndGetUrl(base64Image);
+            imageUrls.add(imageUrl);
         }
 
-        Subject subject = subjectService.findById(subjectId);
-        User user = userService.findByUsername(username);
-        solution.setSubject(subject);
-        solution.setUser(user);
-        return solutionRepository.save(solution);
+        return imageUrls;
+    }
+
+    private String saveImageAndGetUrl(String base64Image) {
+        String[] parts = base64Image.split(",");
+        String imageType = parts[0].split("/")[1].split(";")[0];
+        byte[] imageBytes = Base64.getDecoder().decode(parts[1]);
+        String fileName = UUID.randomUUID().toString() + "." + imageType;
+        saveImageOnDisk(imageBytes, fileName);
+        return ANGULAR_RELATIVE_PATH + fileName;
     }
 
     private List<String> extractBase64Images(String htmlWithBase64) {
