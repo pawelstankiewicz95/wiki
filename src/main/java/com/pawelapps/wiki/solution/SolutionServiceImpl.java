@@ -59,7 +59,10 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Override
     public void deleteSolution(Long id) {
-        solutionRepository.deleteById(id);
+        Solution solution = solutionRepository.findById(id).orElseThrow();
+        solution.getSubject().getSolutions().remove(solution);
+        solution.setSubject(null);
+        solutionRepository.delete(solution);
     }
 
     @Override
