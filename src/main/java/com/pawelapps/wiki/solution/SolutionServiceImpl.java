@@ -1,5 +1,6 @@
 package com.pawelapps.wiki.solution;
 
+import com.pawelapps.wiki.solution.image.Image;
 import com.pawelapps.wiki.solution.image.ImageService;
 import com.pawelapps.wiki.subject.Subject;
 import com.pawelapps.wiki.subject.SubjectService;
@@ -11,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,7 +26,7 @@ public class SolutionServiceImpl implements SolutionService {
     private final ImageService imageService;
 
     private static final String IMAGE_DIRECTORY = "C:/Users/pawel/IdeaProjects/wiki-frontend/wiki-frontend/src/assets/images/";
-    private static final String ANGULAR_RELATIVE_PATH = "/assets/images/";
+   // private static final String ANGULAR_RELATIVE_PATH = "/assets/images/";
 
     @Override
     public Solution findById(Long id) {
@@ -64,6 +66,14 @@ public class SolutionServiceImpl implements SolutionService {
             List<String> imageUrls = imageService.convertBase64ImagesToUrls(base64Images);
             String descriptionWithImageUrls = imageService.replaceBase64ImagesWithUrlsInHtml(solution.getDescription(), imageUrls);
             solution.setDescription(descriptionWithImageUrls);
+
+            List<Image> images = new ArrayList<>();
+            for (String imageUrl : imageUrls) {
+                Image image = Image.builder().path(imageUrl).solution(solution).build();
+                images.add(image);
+            }
+            System.out.println(images);
+            solution.setImages(images);
         }
 
         Subject subject = subjectService.findById(subjectId);
