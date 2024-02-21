@@ -3,20 +3,18 @@ package com.pawelapps.wiki.solution.image;
 import com.pawelapps.wiki.solution.Solution;
 import com.pawelapps.wiki.subject.Subject;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@Builder
 @Entity
 @Table(name = "solution_image")
-@Builder
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
