@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.pawelapps.wiki.solution.image.Image;
 import com.pawelapps.wiki.subject.Subject;
 import com.pawelapps.wiki.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @AllArgsConstructor
@@ -25,7 +27,7 @@ import java.util.List;
 public class Solution {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -42,6 +44,9 @@ public class Solution {
     @JsonIgnoreProperties({"user"})
     @JsonProperty("solutionSubject")
     private Subject subject;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solution")
+    private Collection<Image> images;
 
     @Column(name = "description")
     private String description;
