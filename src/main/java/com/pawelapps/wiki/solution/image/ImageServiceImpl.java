@@ -1,22 +1,21 @@
 package com.pawelapps.wiki.solution.image;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+@RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
 
     private static final String IMAGE_DIRECTORY = "C:/Users/pawel/IdeaProjects/wiki-frontend/wiki-frontend/src/assets/images/";
-
+    private final ImageRepository imageRepository;
     @Override
     public List<String> convertBase64ImagesToUrls(List<String> base64Images) {
         List<String> imageUrls = new ArrayList<>();
@@ -86,4 +85,9 @@ public class ImageServiceImpl implements ImageService {
     private String replaceFirstBase64ImageWithUrlInHtml(String htmlWithBase64, String imageUrl) {
         return htmlWithBase64.replaceFirst("data:image/(.*?);base64,[^\"']+", imageUrl);
     }
+
+    public Set<Image> findBySolutionId(Long solutionId){
+        return imageRepository.findBySolutionId(solutionId);
+    }
+
 }
