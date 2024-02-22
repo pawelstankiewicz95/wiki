@@ -19,7 +19,7 @@ public class SolutionController {
     }
 
     @GetMapping("/solutions/{solutionId}")
-    public ResponseEntity<Solution> getSolutionById(@PathVariable ("solutionId") Long id) {
+    public ResponseEntity<Solution> getSolutionById(@PathVariable("solutionId") Long id) {
         Solution solution = solutionService.findById(id);
         return new ResponseEntity<>(solution, HttpStatus.OK);
     }
@@ -40,5 +40,11 @@ public class SolutionController {
     public ResponseEntity<Solution> updateSolution(@RequestBody Solution solution) {
         Solution updatedSolution = this.solutionService.updateSolution(solution);
         return new ResponseEntity<>(updatedSolution, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/solutions")
+    public ResponseEntity<?> deleteSolution(@RequestParam("solutionId") Long solutionId) {
+        solutionService.deleteSolution(solutionId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

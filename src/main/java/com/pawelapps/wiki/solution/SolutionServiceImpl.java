@@ -1,27 +1,21 @@
 package com.pawelapps.wiki.solution;
 
+import com.pawelapps.wiki.solution.image.Image;
+import com.pawelapps.wiki.solution.image.ImageService;
 import com.pawelapps.wiki.subject.Subject;
 import com.pawelapps.wiki.subject.SubjectService;
 import com.pawelapps.wiki.user.User;
 import com.pawelapps.wiki.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.FileCopyUtils;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Service
 @Transactional
@@ -31,9 +25,10 @@ public class SolutionServiceImpl implements SolutionService {
     private final SolutionRepository solutionRepository;
     private final SubjectService subjectService;
     private final UserService userService;
+    private final ImageService imageService;
 
     private static final String IMAGE_DIRECTORY = "C:/Users/pawel/IdeaProjects/wiki-frontend/wiki-frontend/src/assets/images/";
-    private static final String ANGULAR_RELATIVE_PATH = "/assets/images/";
+   // private static final String ANGULAR_RELATIVE_PATH = "/assets/images/";
 
     @Override
     public Solution findById(Long id) {
@@ -59,8 +54,48 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Override
     public void deleteSolution(Long id) {
-        solutionRepository.deleteById(id);
+        Solution solution = solutionRepository.findById(id).orElseThrow();
+        Set<Image> images = imageService.findBySolutionId(id);
+
+        for (Image image : images) {
+            try {
+                Files.delete(Paths.get(image.getPath()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        solution.getSubject().getSolutions().remove(solution);
+        solution.setSubject(null);
+
+        solutionRepository.delete(solution);
     }
+
+    @Override
+    public Solution saveSolution(Long subjectId, String username, Solution solution) {
+        List<String> base64Images = imageService.findBase64ImagesInHtml(solution.getDescription());
+
+        if (!base64Images.isEmpty()) {
+            List<String> imageUrls = imageService.convertBase64ImagesToUrls(base64Images);
+            String descriptionWithImageUrls = imageService.replaceBase64ImagesWithUrlsInHtml(solution.getDescription(), imageUrls);
+            solution.setDescription(descriptionWithImageUrls);
+
+            List<Image> images = new ArrayList<>();
+            for (String imageUrl : imageUrls) {
+                Image image = Image.builder().path(imageUrl).solution(solution).build();
+                images.add(image);
+            }
+            System.out.println(images);
+            solution.setImages(images);
+        }
+
+        Subject subject = subjectService.findById(subjectId);
+        User user = userService.findByUsername(username);
+        solution.setSubject(subject);
+        solution.setUser(user);
+
+        return solutionRepository.save(solution);
+    }
+
 
     @Override
     public SolutionResponse mapToSolutionResponse(Solution solution) {
@@ -76,56 +111,4 @@ public class SolutionServiceImpl implements SolutionService {
     }
 
 
-    @Override
-    public Solution saveSolution(Long subjectId, String username, Solution solution) {
-        List<String> base64Images = extractBase64Images(solution.getDescription());
-
-        if (!base64Images.isEmpty()) {
-            List<String> imageUrls = new ArrayList<>();
-
-            for (String base64Image : base64Images) {
-                String[] parts = base64Image.split(",");
-                String imageType = parts[0].split("/")[1].split(";")[0];
-                byte[] imageBytes = Base64.getDecoder().decode(parts[1]);
-                String fileName = UUID.randomUUID().toString() + "." + imageType;
-                saveImageOnDisk(imageBytes, fileName);
-                String imageUrl = ANGULAR_RELATIVE_PATH + fileName;
-                imageUrls.add(imageUrl);
-            }
-
-            String descriptionWithImageUrls = replaceBase64WithUrls(solution.getDescription(), imageUrls);
-            solution.setDescription(descriptionWithImageUrls);
-        }
-
-        Subject subject = subjectService.findById(subjectId);
-        User user = userService.findByUsername(username);
-        solution.setSubject(subject);
-        solution.setUser(user);
-        return solutionRepository.save(solution);
-    }
-
-    private List<String> extractBase64Images(String htmlWithBase64) {
-        List<String> base64Images = new ArrayList<>();
-        Pattern pattern = Pattern.compile("data:image/(.*?);base64,([^\"']+)");
-        Matcher matcher = pattern.matcher(htmlWithBase64);
-        while (matcher.find()) {
-            base64Images.add(matcher.group(0));
-        }
-        return base64Images;
-    }
-
-    private void saveImageOnDisk(byte[] imageBytes, String fileName) {
-        try (FileOutputStream fos = new FileOutputStream(IMAGE_DIRECTORY + fileName)) {
-            FileCopyUtils.copy(imageBytes, fos);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String replaceBase64WithUrls(String htmlWithBase64, List<String> imageUrls) {
-        for (int i = 0; i < imageUrls.size(); i++) {
-            htmlWithBase64 = htmlWithBase64.replaceFirst("data:image/(.*?);base64,[^\"']+", imageUrls.get(i));
-        }
-        return htmlWithBase64;
-    }
 }

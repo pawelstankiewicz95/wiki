@@ -13,6 +13,7 @@ public record SolutionResponse(Long id,
                                @JsonProperty("user")
                                UserResponse userResponse,
                                @JsonIgnoreProperties({"userResponse"})
+                               @JsonProperty("solutionSubject")
                                SubjectResponse subjectResponse,
                                String description,
                                LocalDateTime timeCreated,
