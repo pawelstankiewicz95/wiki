@@ -12,8 +12,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Service
 @Transactional
@@ -53,8 +55,18 @@ public class SolutionServiceImpl implements SolutionService {
     @Override
     public void deleteSolution(Long id) {
         Solution solution = solutionRepository.findById(id).orElseThrow();
+        Set<Image> images = imageService.findBySolutionId(id);
+
+        for (Image image : images) {
+            try {
+                Files.delete(Paths.get(image.getPath()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         solution.getSubject().getSolutions().remove(solution);
         solution.setSubject(null);
+
         solutionRepository.delete(solution);
     }
 
@@ -97,5 +109,6 @@ public class SolutionServiceImpl implements SolutionService {
                 .build();
         return solutionResponse;
     }
+
 
 }

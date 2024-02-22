@@ -47,7 +47,7 @@ public class Solution {
     @JsonProperty("solutionSubject")
     private Subject subject;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solution")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "solution", orphanRemoval = true)
     private Collection<Image> images;
 
     @Column(name = "description")
