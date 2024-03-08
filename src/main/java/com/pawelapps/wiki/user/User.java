@@ -2,6 +2,7 @@ package com.pawelapps.wiki.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.pawelapps.wiki.announcement.Announcement;
 import com.pawelapps.wiki.solution.Solution;
 import com.pawelapps.wiki.subject.Subject;
 import jakarta.persistence.*;
@@ -53,6 +54,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "modifier")
     private List<Solution> modifiedSolutions;
+
+    @OneToMany(mappedBy = "user")
+    private List<Announcement> announcements;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
