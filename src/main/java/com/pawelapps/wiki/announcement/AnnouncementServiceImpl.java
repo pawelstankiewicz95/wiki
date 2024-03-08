@@ -18,7 +18,20 @@ public class AnnouncementServiceImpl implements AnnouncementService{
     }
 
     @Override
-    public List<Announcement> findAll() {
-        return announcementRepository.findAll();
+    public List<AnnouncementResponse> findAll() {
+        return announcementRepository.findAll()
+                .stream()
+                .map(solution -> mapToAnnouncementResponse(solution))
+                .toList();
+    }
+
+    @Override
+    public AnnouncementResponse mapToAnnouncementResponse(Announcement announcement) {
+        AnnouncementResponse announcementResponse = AnnouncementResponse.builder()
+                .id(announcement.getId())
+                .title(announcement.getTitle())
+                .description(announcement.getDescription())
+                .build();
+        return announcementResponse;
     }
 }
