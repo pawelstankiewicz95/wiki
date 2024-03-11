@@ -3,10 +3,12 @@ package com.pawelapps.wiki.announcement;
 import java.util.List;
 
 public interface AnnouncementService {
-    AnnouncementResponse saveAnnouncement(Announcement announcement);
+    AnnouncementDto saveAnnouncement(AnnouncementDto announcementDto);
 
-    List<AnnouncementResponse> findAll();
+    List<AnnouncementDto> findAll();
 
 
-    AnnouncementResponse mapToAnnouncementResponse(Announcement announcement);
+    AnnouncementDto mapToAnnouncementDto(Announcement announcement);
+
+    Announcement mapToAnnouncement(AnnouncementDto announcementDto);
 }

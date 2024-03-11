@@ -22,14 +22,14 @@ public class AnnouncementController {
     }
 
     @PostMapping("/announcements")
-    public ResponseEntity<AnnouncementResponse> saveAnnouncement(@RequestBody Announcement announcement){
-        AnnouncementResponse announcementResponse = this.announcementService.saveAnnouncement(announcement);
-        return new ResponseEntity<>(announcementResponse, HttpStatus.CREATED);
+    public ResponseEntity<AnnouncementDto> saveAnnouncement(@RequestBody AnnouncementDto announcementDto){
+        AnnouncementDto savedAnnouncementDto = this.announcementService.saveAnnouncement(announcementDto);
+        return new ResponseEntity<>(savedAnnouncementDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/announcements")
-    public ResponseEntity<List<AnnouncementResponse>> getAnnouncements(){
-        List<AnnouncementResponse> announcements = announcementService.findAll();
+    public ResponseEntity<List<AnnouncementDto>> getAnnouncements(){
+        List<AnnouncementDto> announcements = announcementService.findAll();
         return new ResponseEntity<>(announcements, HttpStatus.OK);
     }
 }

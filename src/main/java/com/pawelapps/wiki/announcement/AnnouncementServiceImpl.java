@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class AnnouncementServiceImpl implements AnnouncementService{
+public class AnnouncementServiceImpl implements AnnouncementService {
 
     private final AnnouncementRepository announcementRepository;
 
@@ -18,26 +18,36 @@ public class AnnouncementServiceImpl implements AnnouncementService{
     }
 
     @Override
-    public List<AnnouncementResponse> findAll() {
+    public List<AnnouncementDto> findAll() {
         return announcementRepository.findAll()
                 .stream()
-                .map(solution -> mapToAnnouncementResponse(solution))
+                .map(announcement -> mapToAnnouncementDto(announcement))
                 .toList();
     }
 
     @Override
-    public AnnouncementResponse saveAnnouncement(Announcement announcement){
-       Announcement savedAnnouncement =  this.announcementRepository.save(announcement);
-       return mapToAnnouncementResponse(savedAnnouncement);
+    public AnnouncementDto saveAnnouncement(AnnouncementDto announcementDto) {
+        Announcement savedAnnouncement = this.announcementRepository.save(this.mapToAnnouncement(announcementDto));
+        return this.mapToAnnouncementDto(savedAnnouncement);
     }
 
     @Override
-    public AnnouncementResponse mapToAnnouncementResponse(Announcement announcement) {
-        AnnouncementResponse announcementResponse = AnnouncementResponse.builder()
+    public AnnouncementDto mapToAnnouncementDto(Announcement announcement) {
+        AnnouncementDto announcementDto = AnnouncementDto.builder()
                 .id(announcement.getId())
                 .title(announcement.getTitle())
                 .description(announcement.getDescription())
                 .build();
-        return announcementResponse;
+        return announcementDto;
+    }
+
+    @Override
+    public Announcement mapToAnnouncement(AnnouncementDto announcementDto) {
+        Announcement announcement = Announcement.builder()
+                .id(announcementDto.id())
+                .title(announcementDto.title())
+                .description(announcementDto.description())
+                .build();
+        return announcement;
     }
 }

@@ -5,9 +5,9 @@ import com.pawelapps.wiki.user.UserResponse;
 import lombok.Builder;
 
 @Builder
-public record AnnouncementResponse(Long id,
-                                   String title,
-                                   String description,
-                                   @JsonProperty("user")
+public record AnnouncementDto(Long id,
+                              String title,
+                              String description,
+                              @JsonProperty("user")
                                    UserResponse userResponse) {
 }
