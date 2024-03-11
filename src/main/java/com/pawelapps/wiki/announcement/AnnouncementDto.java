@@ -9,5 +9,5 @@ public record AnnouncementDto(Long id,
                               String title,
                               String description,
                               @JsonProperty("user")
-                                   UserResponse userResponse) {
+                              UserResponse userResponse) {
 }

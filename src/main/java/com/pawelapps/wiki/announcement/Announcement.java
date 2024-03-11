@@ -1,5 +1,7 @@
 package com.pawelapps.wiki.announcement;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pawelapps.wiki.category.Category;
 import com.pawelapps.wiki.user.User;
 import jakarta.persistence.*;
@@ -16,6 +18,9 @@ import java.util.Objects;
 @Builder
 @Entity
 @Table(name = "announcement")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Announcement{
 
     @Id
