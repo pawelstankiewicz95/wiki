@@ -26,6 +26,12 @@ public class AnnouncementServiceImpl implements AnnouncementService{
     }
 
     @Override
+    public AnnouncementResponse saveAnnouncement(Announcement announcement){
+       Announcement savedAnnouncement =  this.announcementRepository.save(announcement);
+       return mapToAnnouncementResponse(savedAnnouncement);
+    }
+
+    @Override
     public AnnouncementResponse mapToAnnouncementResponse(Announcement announcement) {
         AnnouncementResponse announcementResponse = AnnouncementResponse.builder()
                 .id(announcement.getId())
