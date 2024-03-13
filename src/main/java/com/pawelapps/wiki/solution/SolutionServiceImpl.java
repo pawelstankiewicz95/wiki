@@ -1,5 +1,7 @@
 package com.pawelapps.wiki.solution;
 
+import com.pawelapps.wiki.category.Category;
+import com.pawelapps.wiki.category.CategoryService;
 import com.pawelapps.wiki.solution.image.Image;
 import com.pawelapps.wiki.solution.image.ImageService;
 import com.pawelapps.wiki.subject.Subject;
@@ -15,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -26,6 +30,7 @@ public class SolutionServiceImpl implements SolutionService {
     private final SubjectService subjectService;
     private final UserService userService;
     private final ImageService imageService;
+    private final CategoryService categoryService;
 
     private static final String IMAGE_DIRECTORY = "C:/Users/pawel/IdeaProjects/wiki-frontend/wiki-frontend/src/assets/images/";
    // private static final String ANGULAR_RELATIVE_PATH = "/assets/images/";
@@ -72,6 +77,32 @@ public class SolutionServiceImpl implements SolutionService {
 
     @Override
     public Solution saveSolution(Long subjectId, String username, Solution solution) {
+        handleImages(solution);
+
+        Subject subject = subjectService.findById(subjectId);
+        User user = userService.findByUsername(username);
+        solution.setSubject(subject);
+        solution.setUser(user);
+
+        return solutionRepository.save(solution);
+    }
+
+    @Override
+    public Solution saveSolutionWithSubject(Long categoryId, String username, Solution solution) {
+        handleImages(solution);
+
+        User user = userService.findByUsername(username);
+        Category category = categoryService.findById(categoryId);
+        Subject subject = solution.getSubject();
+        subject.setCategory(category);
+
+        solution.setUser(user);
+        solution.setSubject(subject);
+
+        return solutionRepository.save(solution);
+    }
+
+    private void handleImages(Solution solution) {
         List<String> base64Images = imageService.findBase64ImagesInHtml(solution.getDescription());
 
         if (!base64Images.isEmpty()) {
@@ -87,15 +118,7 @@ public class SolutionServiceImpl implements SolutionService {
             System.out.println(images);
             solution.setImages(images);
         }
-
-        Subject subject = subjectService.findById(subjectId);
-        User user = userService.findByUsername(username);
-        solution.setSubject(subject);
-        solution.setUser(user);
-
-        return solutionRepository.save(solution);
     }
-
 
     @Override
     public SolutionResponse mapToSolutionResponse(Solution solution) {
