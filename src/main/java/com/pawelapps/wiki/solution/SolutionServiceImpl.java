@@ -93,8 +93,11 @@ public class SolutionServiceImpl implements SolutionService {
 
         User user = userService.findByUsername(username);
         Category category = categoryService.findById(categoryId);
+
         Subject subject = solution.getSubject();
         subject.setCategory(category);
+        subject.setUser(user);
+        subjectService.save(subject);
 
         solution.setUser(user);
         solution.setSubject(subject);
