@@ -22,7 +22,8 @@ import java.util.Objects;
 @Table(name = "program")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id",
+        scope = Program.class)
 public class Program {
     @Column(name = "id")
     @Id

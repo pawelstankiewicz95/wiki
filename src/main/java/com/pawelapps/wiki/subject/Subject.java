@@ -24,7 +24,8 @@ import java.util.Objects;
 @Table(name = "subject")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id",
+        scope = Subject.class)
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

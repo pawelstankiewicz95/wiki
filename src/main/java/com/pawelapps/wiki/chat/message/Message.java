@@ -2,6 +2,7 @@ package com.pawelapps.wiki.chat.message;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.pawelapps.wiki.category.Category;
 import com.pawelapps.wiki.subject.Subject;
 import com.pawelapps.wiki.user.User;
 import jakarta.persistence.*;
@@ -18,7 +19,8 @@ import java.util.Objects;
 @Builder
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id",
+        scope = Message.class)
 @Entity
 @Table(name = "chat_message")
 public class Message {

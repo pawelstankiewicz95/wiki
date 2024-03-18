@@ -20,6 +20,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "category")
 @JsonIdentityInfo(
+        scope = Category.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
 public class Category {
