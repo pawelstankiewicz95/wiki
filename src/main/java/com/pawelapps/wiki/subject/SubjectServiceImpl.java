@@ -31,6 +31,11 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public Subject save(Subject subject){
+        return subjectRepository.save(subject);
+    }
+
+    @Override
     public SubjectResponse mapToSubjectResponse(Subject subject) {
         SubjectResponse subjectResponse = SubjectResponse.builder()
                 .id(subject.getId())
@@ -41,5 +46,7 @@ public class SubjectServiceImpl implements SubjectService {
                 .build();
         return subjectResponse;
     }
+
+
 
 }

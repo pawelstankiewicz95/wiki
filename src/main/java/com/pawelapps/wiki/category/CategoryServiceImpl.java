@@ -21,4 +21,9 @@ public class CategoryServiceImpl implements CategoryService{
     public List<Category> findByProgramId(Long id){
         return categoryRepository.findByProgramId(id);
     }
+
+    @Override
+    public Category findById(Long id){
+        return categoryRepository.findById(id).orElseThrow();
+    }
 }

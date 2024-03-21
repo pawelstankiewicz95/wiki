@@ -1,15 +1,15 @@
-package com.pawelapps.wiki.category;
+package com.pawelapps.wiki.chat.message;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.pawelapps.wiki.program.Program;
+import com.pawelapps.wiki.category.Category;
 import com.pawelapps.wiki.subject.Subject;
+import com.pawelapps.wiki.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -17,28 +17,27 @@ import java.util.Objects;
 @Setter
 @Getter
 @Builder
-@Entity
-@Table(name = "category")
 @JsonIdentityInfo(
-        scope = Category.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
-public class Category {
+        property = "id",
+        scope = Message.class)
+@Entity
+@Table(name = "chat_message")
+public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "message")
+    private String message;
 
     @ManyToOne
-    @JoinColumn(name = "program_id")
-    private Program program;
+    @JoinColumn(name = "user_id", updatable = false)
+    private User user;
 
-    @OneToMany(mappedBy = "category")
-    @JsonIgnore
-    private List<Subject> subjects;
+    @Column(name = "time_created", updatable = false)
+    private LocalDateTime timeCreated;
 
     @Override
     public final boolean equals(Object o) {
@@ -47,8 +46,8 @@ public class Category {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Category category = (Category) o;
-        return getId() != null && Objects.equals(getId(), category.getId());
+        Subject subject = (Subject) o;
+        return getId() != null && Objects.equals(getId(), subject.getId());
     }
 
     @Override
@@ -57,4 +56,5 @@ public class Category {
                 ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
                 : getClass().hashCode();
     }
+
 }

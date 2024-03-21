@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.pawelapps.wiki.program.Program;
 import com.pawelapps.wiki.solution.image.Image;
 import com.pawelapps.wiki.subject.Subject;
 import com.pawelapps.wiki.user.User;
@@ -25,7 +26,8 @@ import java.util.Objects;
 @Table(name = "solution")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "id",
+        scope = Solution.class)
 public class Solution {
 
     @Id

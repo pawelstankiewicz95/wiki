@@ -10,4 +10,6 @@ public interface SubjectService {
     Subject findById(Long id);
 
     SubjectResponse mapToSubjectResponse(Subject subject);
+
+    Subject save(Subject subject);
 }
