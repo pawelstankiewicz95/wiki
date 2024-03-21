@@ -11,5 +11,5 @@ public interface SubjectService {
 
     SubjectResponse mapToSubjectResponse(Subject subject);
 
-    Subject save(Subject subject);
+    Subject save(Long categoryId, String username,  Subject subject);
 }

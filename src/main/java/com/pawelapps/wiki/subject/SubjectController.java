@@ -1,11 +1,12 @@
 package com.pawelapps.wiki.subject;
 
-import com.pawelapps.wiki.category.Category;
+import com.pawelapps.wiki.solution.Solution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -29,5 +30,11 @@ public class SubjectController {
     public ResponseEntity<List<SubjectResponse>> getSubjectsByTitle(@RequestParam("title") String title){
         List<SubjectResponse> subjects = subjectService.findByTitle(title);
         return new ResponseEntity<>(subjects, HttpStatus.OK);
+    }
+
+    @PostMapping("/subjects")
+    public ResponseEntity<Subject> saveSubject(@RequestParam("categoryId") Long categoryId, Principal principal, @RequestBody Subject subject){
+        Subject newSubject = this.subjectService.save(categoryId, principal.getName(), subject);
+        return new ResponseEntity<>(newSubject, HttpStatus.CREATED);
     }
 }

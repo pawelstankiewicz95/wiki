@@ -1,5 +1,9 @@
 package com.pawelapps.wiki.subject;
 
+import com.pawelapps.wiki.category.Category;
+import com.pawelapps.wiki.category.CategoryService;
+import com.pawelapps.wiki.solution.SolutionRepository;
+import com.pawelapps.wiki.user.User;
 import com.pawelapps.wiki.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,8 @@ import java.util.List;
 public class SubjectServiceImpl implements SubjectService {
 
     private final SubjectRepository subjectRepository;
+    private final SolutionRepository solutionRepository;
+    private final CategoryService categoryService;
     private final UserService userService;
 
     @Override
@@ -31,11 +37,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Subject save(Subject subject){
-        return subjectRepository.save(subject);
-    }
-
-    @Override
     public SubjectResponse mapToSubjectResponse(Subject subject) {
         SubjectResponse subjectResponse = SubjectResponse.builder()
                 .id(subject.getId())
@@ -47,6 +48,14 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectResponse;
     }
 
+    @Override
+    public Subject save(Long categoryId, String username, Subject subject) {
+        Category category = categoryService.findById(categoryId);
+        User user = userService.findByUsername(username);
+        subject.setCategory(category);
+        subject.setUser(user);
+        return subjectRepository.save(subject);
+    }
 
 
 }

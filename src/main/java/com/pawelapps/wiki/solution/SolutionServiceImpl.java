@@ -87,24 +87,6 @@ public class SolutionServiceImpl implements SolutionService {
         return solutionRepository.save(solution);
     }
 
-    @Override
-    public Solution saveSolutionWithSubject(Long categoryId, String username, Solution solution) {
-        handleImages(solution);
-
-        User user = userService.findByUsername(username);
-        Category category = categoryService.findById(categoryId);
-
-        Subject subject = solution.getSubject();
-        subject.setCategory(category);
-        subject.setUser(user);
-        subjectService.save(subject);
-
-        solution.setUser(user);
-        solution.setSubject(subject);
-
-        return solutionRepository.save(solution);
-    }
-
     private void handleImages(Solution solution) {
         List<String> base64Images = imageService.findBase64ImagesInHtml(solution.getDescription());
 
