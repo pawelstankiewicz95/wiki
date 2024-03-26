@@ -52,8 +52,8 @@ public class SubjectServiceImpl implements SubjectService {
     public Subject save(Long categoryId, String username, Subject subject) {
         Category category = categoryService.findById(categoryId);
         User user = userService.findByUsername(username);
-        subject.setCategory(category);
-        subject.setUser(user);
+        category.addSubject(subject);
+        user.addSubject(subject);
         return subjectRepository.save(subject);
     }
 
