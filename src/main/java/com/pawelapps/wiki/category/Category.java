@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +40,17 @@ public class Category {
     @OneToMany(mappedBy = "category")
     @JsonIgnore
     private List<Subject> subjects;
+
+    public void addSubject(Subject subject) {
+
+        if (subjects == null) {
+            subjects = new ArrayList<>();
+        }
+
+        subjects.add(subject);
+
+        subject.setCategory(this);
+    }
 
     @Override
     public final boolean equals(Object o) {
