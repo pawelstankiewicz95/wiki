@@ -2,7 +2,7 @@ package com.pawelapps.wiki.solution;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pawelapps.wiki.subject.SubjectResponse;
+import com.pawelapps.wiki.subject.SubjectDto;
 import com.pawelapps.wiki.user.UserResponse;
 import lombok.Builder;
 
@@ -14,7 +14,7 @@ public record SolutionResponse(Long id,
                                UserResponse userResponse,
                                @JsonIgnoreProperties({"userResponse"})
                                @JsonProperty("solutionSubject")
-                               SubjectResponse subjectResponse,
+                               SubjectDto subjectDto,
                                String description,
                                LocalDateTime timeCreated,
                                LocalDateTime timeUpdated) {
