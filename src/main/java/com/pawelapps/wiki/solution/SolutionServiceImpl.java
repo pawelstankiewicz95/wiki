@@ -1,6 +1,5 @@
 package com.pawelapps.wiki.solution;
 
-import com.pawelapps.wiki.category.Category;
 import com.pawelapps.wiki.category.CategoryService;
 import com.pawelapps.wiki.solution.image.Image;
 import com.pawelapps.wiki.solution.image.ImageService;
@@ -110,7 +109,7 @@ public class SolutionServiceImpl implements SolutionService {
         SolutionResponse solutionResponse = SolutionResponse.builder()
                 .id(solution.getId())
                 .userResponse(userService.mapToUserResponse(solution.getUser()))
-                .subjectResponse(subjectService.mapToSubjectResponse(solution.getSubject()))
+                .subjectDto(subjectService.mapToSubjectDto(solution.getSubject()))
                 .description(solution.getDescription())
                 .timeCreated(solution.getTimeCreated())
                 .timeUpdated(solution.getTimeUpdated())
