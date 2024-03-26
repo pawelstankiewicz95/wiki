@@ -22,13 +22,13 @@ public class SubjectServiceImpl implements SubjectService {
     private final UserService userService;
 
     @Override
-    public List<SubjectResponse> findByCategoryId(Long id) {
-        return subjectRepository.findByCategoryId(id).stream().map(subject -> mapToSubjectResponse(subject)).toList();
+    public List<SubjectDto> findByCategoryId(Long id) {
+        return subjectRepository.findByCategoryId(id).stream().map(subject -> mapToSubjectDto(subject)).toList();
     }
 
     @Override
-    public List<SubjectResponse> findByTitle(String title) {
-        return subjectRepository.findByTitle(title).stream().map(subject -> mapToSubjectResponse(subject)).toList();
+    public List<SubjectDto> findByTitle(String title) {
+        return subjectRepository.findByTitle(title).stream().map(subject -> mapToSubjectDto(subject)).toList();
     }
 
     @Override
@@ -36,16 +36,20 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectRepository.findById(id).orElseThrow();
     }
 
+    public SubjectDto getSubjectDto(Long subjectId) {
+        return this.mapToSubjectDto(findById(subjectId));
+    }
+
     @Override
-    public SubjectResponse mapToSubjectResponse(Subject subject) {
-        SubjectResponse subjectResponse = SubjectResponse.builder()
+    public SubjectDto mapToSubjectDto(Subject subject) {
+        SubjectDto subjectDto = SubjectDto.builder()
                 .id(subject.getId())
                 .title(subject.getTitle())
                 .timeCreated(subject.getTimeCreated())
                 .timeUpdated(subject.getTimeUpdated())
                 .userResponse(userService.mapToUserResponse(subject.getUser()))
                 .build();
-        return subjectResponse;
+        return subjectDto;
     }
 
     @Override
