@@ -19,6 +19,12 @@ public class SubjectController {
         this.subjectService = subjectService;
     }
 
+    @PostMapping("/subjects")
+    public ResponseEntity<Subject> saveSubject(@RequestParam("categoryId") Long categoryId, Principal principal, @RequestBody Subject subject) {
+        Subject newSubject = this.subjectService.save(categoryId, principal.getName(), subject);
+        return new ResponseEntity<>(newSubject, HttpStatus.CREATED);
+    }
+
     @GetMapping("subjects/subjects-by-category-id/{subjectId}")
     public ResponseEntity<List<SubjectDto>> getSubjectsByCategoryId(@PathVariable("subjectId") Long categoryId) {
         List<SubjectDto> subjects = subjectService.findByCategoryId(categoryId);
@@ -37,9 +43,9 @@ public class SubjectController {
         return new ResponseEntity<>(subject, HttpStatus.OK);
     }
 
-    @PostMapping("/subjects")
-    public ResponseEntity<Subject> saveSubject(@RequestParam("categoryId") Long categoryId, Principal principal, @RequestBody Subject subject) {
-        Subject newSubject = this.subjectService.save(categoryId, principal.getName(), subject);
-        return new ResponseEntity<>(newSubject, HttpStatus.CREATED);
+    @DeleteMapping("/subjects")
+    public ResponseEntity<?> deleteSolution(@RequestParam("subjectId") Long subjectId) {
+        subjectService.deleteById(subjectId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
