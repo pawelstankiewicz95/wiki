@@ -7,11 +7,11 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record SubjectResponse(Long id,
-                              String title,
-                              LocalDateTime timeCreated,
-                              LocalDateTime timeUpdated,
-                              @JsonProperty("user")
+public record SubjectDto(Long id,
+                         String title,
+                         LocalDateTime timeCreated,
+                         LocalDateTime timeUpdated,
+                         @JsonProperty("user")
                               UserResponse userResponse
 ) {
 }

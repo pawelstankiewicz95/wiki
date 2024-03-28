@@ -1,6 +1,5 @@
 package com.pawelapps.wiki.solution;
 
-import com.pawelapps.wiki.category.Category;
 import com.pawelapps.wiki.category.CategoryService;
 import com.pawelapps.wiki.solution.image.Image;
 import com.pawelapps.wiki.solution.image.ImageService;
@@ -87,24 +86,6 @@ public class SolutionServiceImpl implements SolutionService {
         return solutionRepository.save(solution);
     }
 
-    @Override
-    public Solution saveSolutionWithSubject(Long categoryId, String username, Solution solution) {
-        handleImages(solution);
-
-        User user = userService.findByUsername(username);
-        Category category = categoryService.findById(categoryId);
-
-        Subject subject = solution.getSubject();
-        subject.setCategory(category);
-        subject.setUser(user);
-        subjectService.save(subject);
-
-        solution.setUser(user);
-        solution.setSubject(subject);
-
-        return solutionRepository.save(solution);
-    }
-
     private void handleImages(Solution solution) {
         List<String> base64Images = imageService.findBase64ImagesInHtml(solution.getDescription());
 
@@ -128,7 +109,7 @@ public class SolutionServiceImpl implements SolutionService {
         SolutionResponse solutionResponse = SolutionResponse.builder()
                 .id(solution.getId())
                 .userResponse(userService.mapToUserResponse(solution.getUser()))
-                .subjectResponse(subjectService.mapToSubjectResponse(solution.getSubject()))
+                .subjectDto(subjectService.mapToSubjectDto(solution.getSubject()))
                 .description(solution.getDescription())
                 .timeCreated(solution.getTimeCreated())
                 .timeUpdated(solution.getTimeUpdated())

@@ -36,13 +36,6 @@ public class SolutionController {
         return new ResponseEntity<>(newSolution, HttpStatus.CREATED);
     }
 
-    @PostMapping("/solutions/with-subject")
-    public ResponseEntity<Solution> saveSolutionWithSubject(@RequestBody Solution solution, @RequestParam("categoryId") Long categoryId, Principal principal) {
-        Solution newSolution = this.solutionService.saveSolutionWithSubject(categoryId, principal.getName(), solution);
-        return new ResponseEntity<>(newSolution, HttpStatus.CREATED);
-    }
-
-
     @PutMapping("/solutions")
     public ResponseEntity<Solution> updateSolution(@RequestBody Solution solution) {
         Solution updatedSolution = this.solutionService.updateSolution(solution);

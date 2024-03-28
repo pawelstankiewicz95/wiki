@@ -10,8 +10,6 @@ public interface SolutionService {
 
     Solution saveSolution(Long subjectId, String username, Solution solution);
 
-    Solution saveSolutionWithSubject(Long categoryId, String username, Solution solution);
-
     Solution updateSolution(Solution solution);
 
     void deleteSolution(Long id);
