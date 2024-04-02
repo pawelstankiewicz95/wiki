@@ -22,6 +22,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserRoleView findRoleByUsername(String username) {
+        return this.userRepository.findRoleByUsername(username).orElseThrow();
+    }
+
+    @Override
     public UserDto mapToUserDto(User user) {
         UserDto userDto = UserDto.builder()
                 .username(user.getUsername())

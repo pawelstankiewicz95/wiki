@@ -8,4 +8,6 @@ public interface UserService {
 
     UserDto getUserDto(String username);
 
+    UserRoleView findRoleByUsername(String username);
+
 }
