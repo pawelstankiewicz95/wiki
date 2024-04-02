@@ -17,6 +17,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto getUserDto(String username){
+       return this.mapToUserDto(this.findByUsername(username));
+    }
+
+    @Override
     public UserDto mapToUserDto(User user) {
         UserDto userDto = UserDto.builder()
                 .username(user.getUsername())
