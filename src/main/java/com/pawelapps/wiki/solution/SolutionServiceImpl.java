@@ -108,7 +108,7 @@ public class SolutionServiceImpl implements SolutionService {
     public SolutionResponse mapToSolutionResponse(Solution solution) {
         SolutionResponse solutionResponse = SolutionResponse.builder()
                 .id(solution.getId())
-                .userResponse(userService.mapToUserResponse(solution.getUser()))
+                .userDto(userService.mapToUserDto(solution.getUser()))
                 .subjectDto(subjectService.mapToSubjectDto(solution.getSubject()))
                 .description(solution.getDescription())
                 .timeCreated(solution.getTimeCreated())

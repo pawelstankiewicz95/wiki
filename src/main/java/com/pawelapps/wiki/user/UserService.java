@@ -3,5 +3,11 @@ package com.pawelapps.wiki.user;
 public interface UserService {
 
     User findByUsername(String username);
-    UserResponse mapToUserResponse(User user);
+
+    UserDto mapToUserDto(User user);
+
+    UserDto getUserDto(String username);
+
+    UserRoleView findRoleByUsername(String username);
+
 }

@@ -70,7 +70,7 @@ public class SubjectServiceImpl implements SubjectService {
                 .title(subject.getTitle())
                 .timeCreated(subject.getTimeCreated())
                 .timeUpdated(subject.getTimeUpdated())
-                .userResponse(userService.mapToUserResponse(subject.getUser()))
+                .userDto(userService.mapToUserDto(subject.getUser()))
                 .build();
         return subjectDto;
     }

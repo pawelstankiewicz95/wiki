@@ -17,14 +17,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse mapToUserResponse(User user) {
-        UserResponse userResponse = UserResponse.builder()
+    public UserDto getUserDto(String username){
+       return this.mapToUserDto(this.findByUsername(username));
+    }
+
+    @Override
+    public UserRoleView findRoleByUsername(String username) {
+        return this.userRepository.findRoleByUsername(username).orElseThrow();
+    }
+
+    @Override
+    public UserDto mapToUserDto(User user) {
+        UserDto userDto = UserDto.builder()
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .role(user.getRole())
                 .build();
-        return userResponse;
+        return userDto;
     }
 }
