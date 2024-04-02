@@ -17,14 +17,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse mapToUserResponse(User user) {
-        UserResponse userResponse = UserResponse.builder()
+    public UserDto mapToUserDto(User user) {
+        UserDto userDto = UserDto.builder()
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .role(user.getRole())
                 .build();
-        return userResponse;
+        return userDto;
     }
 }

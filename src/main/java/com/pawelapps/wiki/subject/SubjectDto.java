@@ -1,7 +1,7 @@
 package com.pawelapps.wiki.subject;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pawelapps.wiki.user.UserResponse;
+import com.pawelapps.wiki.user.UserDto;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -12,6 +12,6 @@ public record SubjectDto(Long id,
                          LocalDateTime timeCreated,
                          LocalDateTime timeUpdated,
                          @JsonProperty("user")
-                              UserResponse userResponse
+                         UserDto userDto
 ) {
 }
