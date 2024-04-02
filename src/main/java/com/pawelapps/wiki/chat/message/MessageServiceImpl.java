@@ -48,6 +48,6 @@ public class MessageServiceImpl implements MessageService {
                 message.getId(),
                 message.getMessage(),
                 message.getTimeCreated(),
-                userService.mapToUserResponse(message.getUser()));
+                userService.mapToUserDto(message.getUser()));
     }
 }
