@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
@@ -22,5 +24,12 @@ public class UserController {
     public ResponseEntity<UserRoleView> getUserRoleByUsername(@RequestParam("username") String username) {
         UserRoleView userRole = this.userService.findRoleByUsername(username);
         return new ResponseEntity<>(userRole, HttpStatus.OK);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<UserDto>> getUsers() {
+        List<UserDto> users = this.userService.getUsersDto();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+
     }
 }

@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -14,6 +16,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow();
+    }
+
+    @Override
+    public List<UserDto> getUsersDto() {
+        return userRepository.findAll().stream().map(user -> mapToUserDto(user)).toList();
     }
 
     @Override
