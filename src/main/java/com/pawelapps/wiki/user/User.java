@@ -46,6 +46,9 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "is_enabled")
+    private Boolean isEnabled;
+
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Subject> subjects;
@@ -99,7 +102,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.isEnabled;
     }
 
     @Override
