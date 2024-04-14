@@ -27,6 +27,7 @@ public class AuthenticationService {
                 .firstName(registerRequest.getFirstName())
                 .lastName(registerRequest.getLastName())
                 .role(Role.ROLE_USER)
+                .isEnabled(false)
                 .build();
         userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
