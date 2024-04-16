@@ -1,6 +1,7 @@
 package com.pawelapps.wiki.user;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -9,6 +10,8 @@ public interface UserService {
     List<UserDto> getUsersDto();
 
     UserDto mapToUserDto(User user);
+
+    User updateUserByFields(String username, Map<String, Object> fields);
 
     UserDto getUserDto(String username);
 
