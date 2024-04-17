@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,5 +32,12 @@ public class UserController {
         List<UserDto> users = this.userService.getUsersDto();
         return new ResponseEntity<>(users, HttpStatus.OK);
 
+    }
+
+    @PatchMapping("/users")
+    public ResponseEntity<UserDto> updateUserByFields(@RequestParam String username,
+                                                      @RequestBody Map<String, Object> fields){
+        UserDto userDto = this.userService.updateUserByFields(username, fields);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 }
