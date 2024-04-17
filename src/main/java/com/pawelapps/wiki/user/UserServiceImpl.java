@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserByFields(String username, Map<String, Object> fields){
+    public UserDto updateUserByFields(String username, Map<String, Object> fields){
 
         User existingUser = userRepository.findByUsername(username).orElseThrow();
 
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
             ReflectionUtils.setField(field, existingUser, value);
         });
 
-        return userRepository.save(existingUser);
+        return mapToUserDto(userRepository.save(existingUser));
     }
 
     @Override

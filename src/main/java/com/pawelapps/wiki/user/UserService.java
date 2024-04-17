@@ -11,7 +11,7 @@ public interface UserService {
 
     UserDto mapToUserDto(User user);
 
-    User updateUserByFields(String username, Map<String, Object> fields);
+    UserDto updateUserByFields(String username, Map<String, Object> fields);
 
     UserDto getUserDto(String username);
 
