@@ -38,17 +38,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUserByFields(String username, Map<String, Object> fields){
-
+    public UserDto updateUserByFields(String username, Map<String, Object> fields) {
         User existingUser = userRepository.findByUsername(username).orElseThrow();
 
         fields.forEach((key, value) -> {
             Field field = ReflectionUtils.findField(User.class, key);
-            field.setAccessible(true);
-            ReflectionUtils.setField(field, existingUser, value);
+            if (field != null) {
+                field.setAccessible(true);
+                Class<?> fieldType = field.getType();
+                Object convertedValue = convertValueToFieldType(value, fieldType);
+                ReflectionUtils.setField(field, existingUser, convertedValue);
+            }
         });
 
         return mapToUserDto(userRepository.save(existingUser));
+    }
+
+    private Object convertValueToFieldType(Object value, Class<?> fieldType) {
+        if (fieldType == Boolean.class || fieldType == boolean.class) {
+            return Boolean.parseBoolean((String) value);
+        } else if (fieldType == Integer.class || fieldType == int.class) {
+            return Integer.parseInt((String) value);
+        }
+        return value;
     }
 
     @Override
